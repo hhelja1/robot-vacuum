@@ -4,12 +4,14 @@ use ieee.numeric_std.all;
 
 entity ultrasonic is
 port(
+	
 	clk:			in std_logic;
 	trig: 	out std_logic;
 	echo: 		in std_logic;
 	in1, in2, in3, in4: out std_logic;
 --	en1, en2: out std_logic
-	hex0, hex1: out std_logic_vector(6 downto 0)
+	hex0, hex1: out std_logic_vector(6 downto 0);
+	usisava_out: out std_logic
 );
 end ultrasonic;	
 
@@ -39,6 +41,7 @@ signal ones: unsigned(3 downto 0);
 signal tens: unsigned(3 downto 0);
 signal one: unsigned(5 downto 0);
 signal ten: unsigned(5 downto 0);
+constant usisava: std_logic := '1';
 begin
   process(clk, echo)
     variable c1,c2: integer := 0;
@@ -74,6 +77,8 @@ begin
 	
 	ones <= unsigned(one)(3 downto 0);
 	tens <= unsigned(ten)(3 downto 0);
+	
+	usisava_out <= usisava;
 	
 	cell_1: movement port map(in1,in2,in3,in4,std_logic_vector(dist));
 	cell_2: display7segment port map(std_logic_vector(ones), hex0);
